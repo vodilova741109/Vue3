@@ -5,10 +5,9 @@
         @click="showDialog"
         >Создать пост</my-button>
         <my-dialog v-model:show="dialogVisible" >
-            <post-form
+         <post-form
          @create="createPost"/>
-        </my-dialog>
-       
+        </my-dialog>       
          <post-list 
          :posts="posts"
          @remove="removePost"/>
