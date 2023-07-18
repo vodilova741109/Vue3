@@ -1,17 +1,26 @@
 <template>    
     <div class="app"> 
-        <h1>Страница с постами</h1>    
-        <my-button class="dialog__btn"
-        @click="showDialog"
-        >Создать пост</my-button>
+        <h1>Страница с постами</h1> 
+        <div class="app__btns">
+            <my-button class="dialog__btn"
+            @click="showDialog"
+            >Создать пост</my-button>
+            <my-select
+             v-model="selectedSort"
+             :options="sortOptions"
+            ></my-select>
+        </div>   
+        
         <my-dialog v-model:show="dialogVisible" >
             <post-form
          @create="createPost"/>
-        </my-dialog>
-       
-         <post-list 
-         :posts="posts"
+        </my-dialog>       
+         <post-list v-if="!isPostLoading"
+         :posts="sortedPosts"
          @remove="removePost"/>
+    <my-loading v-else >
+        <h4>Идет загрузка</h4>        
+    </my-loading>
        
     </div>
     
@@ -22,15 +31,23 @@ import PostForm from '@/components/PostForm.vue'
 import PostList from '@/components/PostList.vue'
 import MyButton from './components/UI/MyButton.vue'
 import axios from 'axios'
+import MyLoading from './components/UI/MyLoading.vue'
 export default {
     components: {
        PostList, PostForm,
-        MyButton
+        MyButton,
+        MyLoading
     },
     data(){
         return {
             posts: [], 
-            dialogVisible: false,          
+            dialogVisible: false,  
+            isPostLoading:  false,
+            selectedSort: '',
+            sortOptions: [
+                {value: 'title', name: 'По названию'},
+                {value: 'body', name: 'По содержимому'},
+            ]      
         }
     },
     methods:{      
@@ -47,20 +64,36 @@ export default {
         },
         async fetchPosts(){
             try {
-                setTimeout( async () => {
+                this.isPostLoading = true;
+                // setTimeout( async () => {
                     const response =  await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=10');
-                 this.posts = response.data;
-
-                }, 1000)
+                 this.posts = response.data;     
+                // }, 1000)
                 
             } catch(e) {
                 alert('Ошибка');
+            }finally {
+                this.isPostLoading = false;
             }
         }  
     },    
     mounted() {
         this.fetchPosts();
-    }  
+    },
+    computed: {
+        sortedPosts() {
+            return [...this.posts].sort((post1, post2) =>  post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]))}
+
+    },
+    watch: {
+        // selectedSort(newVal) {           
+        //     this.posts.sort( (post1, post2) => {
+        //         return post1[newVal]?.localeCompare(post2[newVal])
+        //     })
+        // },
+        
+    }
+       
 }
 </script>
 <style>
@@ -72,7 +105,15 @@ export default {
 .app {
     padding: 20px;
 }
-.dialog__btn{
+.dialog__btn {
     margin: 15px 0;
+}
+h4 {
+    color: #6ebeff;
+    font-size: 20px;
+}
+.app__btns {
+ display: flex;
+ justify-content: space-between;
 }
 </style>
