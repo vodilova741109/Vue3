@@ -2,7 +2,9 @@
     <div class="post">
         <div>
             <div ><strong>Название:</strong>{{ post.title }}</div>
-           <div><strong>Описание:</strong> {{ post.body }}</div>
+            <!-- <div ><strong>Описание:</strong>{{ post.excerpt }}</div> -->
+           <div><strong>Описание:</strong> <span v-html="post.excerpt"></span>
+            </div>
         </div>
         <div class="post__btns">
             <my-button             

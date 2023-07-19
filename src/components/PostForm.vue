@@ -6,7 +6,7 @@
             type="text" 
             placeholder="Название поста"/>
             <my-input
-            v-model="post.body"  
+            v-model="post.excerpt"  
             type="text" 
             placeholder="Описание поста"/>
             <my-button
@@ -22,7 +22,7 @@ export default {
         return {   
             post: {
                 title: '',
-                body: ''
+                excerpt: ''
             }   
         }
     },
@@ -32,7 +32,7 @@ export default {
             this.$emit('create', this.post)
             this.post = {
                 title: '',
-                 body: '',
+                excerpt: '',
             }           
         }   
     },

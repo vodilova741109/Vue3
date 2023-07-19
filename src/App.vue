@@ -31,6 +31,7 @@ import PostForm from '@/components/PostForm.vue'
 import PostList from '@/components/PostList.vue'
 import MyButton from './components/UI/MyButton.vue'
 import axios from 'axios'
+import server from '@/server'
 import MyLoading from './components/UI/MyLoading.vue'
 export default {
     components: {
@@ -46,7 +47,7 @@ export default {
             selectedSort: '',
             sortOptions: [
                 {value: 'title', name: 'По названию'},
-                {value: 'body', name: 'По содержимому'},
+                {value: 'excerpt', name: 'По содержимому'},
             ]      
         }
     },
@@ -65,9 +66,18 @@ export default {
         async fetchPosts(){
             try {
                 this.isPostLoading = true;
-                // setTimeout( async () => {
-                    const response =  await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=10');
-                 this.posts = response.data;     
+                // // setTimeout( async () => {
+                //     const response =  await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=40');  
+                //      this.posts = response.data; 
+                    // работа с БД WP
+                    const response =  await axios.get('https://fondfbr.ru/wp-json/wp/v2/posts/?per_page=11');      
+                    // const response =  await axios.get('https://prodomstroim.ru/wp-json/wp/v2/library');            
+                    this.posts = response.data.map(post =>({
+                        id: post.id,
+                        title: post.title.rendered,
+                        excerpt: post.excerpt.rendered
+                    }));                 
+           
                 // }, 1000)
                 
             } catch(e) {
@@ -76,7 +86,8 @@ export default {
                 this.isPostLoading = false;
             }
         }  
-    },    
+    },   
+  
     mounted() {
         this.fetchPosts();
     },

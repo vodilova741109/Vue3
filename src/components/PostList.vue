@@ -22,7 +22,7 @@ import PostItem from './PostItem.vue'
 
 
 export default {
-  components: { PostItem},
+  components: {PostItem},
     props: {
         posts: {
             type: Array,
