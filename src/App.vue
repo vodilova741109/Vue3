@@ -180,7 +180,8 @@ export default {
 
         // функция обратного вызова
         let callback = (entries, observer) => {
-            if(entries[0].isIntersecting){
+            //  проверка может быть на кол-во постов или кол-во страниц или this.page < this.totalPages или this.page < this.totalPagesWP
+            if(entries[0].isIntersecting && this.posts.length < this.total){
                 this.loadMorePosts();
             }
         }
