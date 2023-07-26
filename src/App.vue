@@ -12,8 +12,7 @@
              v-model="selectedSort"
              :options="sortOptions"
             ></my-select>
-        </div>   
-        
+        </div>           
         <my-dialog v-model:show="dialogVisible" >
             <post-form
          @create="createPost"/>
@@ -24,9 +23,9 @@
     <my-loading v-else >
         <h4>Идет загрузка</h4>        
     </my-loading>
-    <div ref="observer" class="observer"></div>
-    <!-- // временно закомментировала пагинация -->
-    <!-- <div class="page__wrapper">
+     <!-- // временно закомментировала подгузку страниц -->
+    <!-- <div ref="observer" class="observer"></div> -->   
+    <div class="page__wrapper">
         <div         
         v-for="pageNumder in totalPages"
         :key="pageNumder"
@@ -35,7 +34,7 @@
         @click="changePage(pageNumder)">
         {{ pageNumder }}            
         </div>
-    </div> -->
+    </div>
        
     </div>
     
@@ -82,15 +81,14 @@ export default {
         },
         showDialog() {
             this.dialogVisible = true;
+        },       
+        changePage(pageNumder) {
+          this.page = pageNumder;        
         },
-        // временно закомментировала пагинация
-        // changePage(pageNumder) {
-        //   this.page = pageNumder;        
-        // },
         // пагинация страниц
         async fetchPosts(){
             try {
-                this.page +=1;
+                
                 this.isPostLoading = true;
                 // // setTimeout( async () => {
                 //     const response =  await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=40');  
@@ -128,76 +126,75 @@ export default {
                 this.isPostLoading = false;
             }
         },
-        // подгрузка постов
-        async loadMorePosts(){
-            try {
-                // this.isPostLoading = true;
-                // // setTimeout( async () => {
-                //     const response =  await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=40');  
-                    //  this.posts = response.data; 
-                    // работа с БД WP с лимитом вывода
-                    const response =  await axios.get('https://fondfbr.ru/wp-json/wp/v2/posts',                     
-                    {
-                        params: {
-                            page: this.page,
-                            per_page: this.limit                                                      
-                        }                        
-                    }); 
-                    // или  
-                    // const response =  await axios.get('https://fondfbr.ru/wp-json/wp/v2/posts/?per_page=11');  
-                    // количество постов всего
-                    this.total = +response.headers['x-wp-total']; 
-                    // количество страниц всего
-                    this.totalPages = Math.ceil(this.total/this.limit);
-                    // или
-                    this.totalPagesWP = +response.headers['x-wp-totalpages'];    
-                    // console.log(this.totalPages, this.totalPagesWP);         
+        // временно закомментировала подгузку страниц 
+        // async loadMorePosts(){
+        //     try {
+        //            this.page +=1;
+        //         // this.isPostLoading = true;
+        //         // // setTimeout( async () => {
+        //         //     const response =  await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=40');  
+        //             //  this.posts = response.data; 
+        //             // работа с БД WP с лимитом вывода
+        //             const response =  await axios.get('https://fondfbr.ru/wp-json/wp/v2/posts',                     
+        //             {
+        //                 params: {
+        //                     page: this.page,
+        //                     per_page: this.limit                                                      
+        //                 }                        
+        //             }); 
+        //             // или  
+        //             // const response =  await axios.get('https://fondfbr.ru/wp-json/wp/v2/posts/?per_page=11');  
+        //             // количество постов всего
+        //             this.total = +response.headers['x-wp-total']; 
+        //             // количество страниц всего
+        //             this.totalPages = Math.ceil(this.total/this.limit);
+        //             // или
+        //             this.totalPagesWP = +response.headers['x-wp-totalpages'];    
+        //             // console.log(this.totalPages, this.totalPagesWP);         
 
-                    // const response =  await axios.get('https://prodomstroim.ru/wp-json/wp/v2/library');            
-                    this.posts =[...this.posts,  ...response.data.map(post =>({
-                        id: post.id,
-                        title: post.title.rendered,
-                        excerpt: post.excerpt.rendered
-                    }))]
-                // }, 1000)
+        //             // const response =  await axios.get('https://prodomstroim.ru/wp-json/wp/v2/library');            
+        //             this.posts =[...this.posts,  ...response.data.map(post =>({
+        //                 id: post.id,
+        //                 title: post.title.rendered,
+        //                 excerpt: post.excerpt.rendered
+        //             }))]
+        //         // }, 1000)
                 
-            } catch(e) {
-                alert('Ошибка');
-            }finally {
-                // this.isPostLoading = false;
-            }
-        }    
+        //     } catch(e) {
+        //         alert('Ошибка');
+        //     }finally {
+        //         // this.isPostLoading = false;
+        //     }
+        // }    
     },   
   
     mounted() {
-        this.fetchPosts();    
-        let options = {
-            // root: document.querySelector('.scroll-list'),
-            rootMargin: '5px',
-            threshold: 0.5
-        }
-
-        // функция обратного вызова
-        let callback = (entries, observer) => {
-            if(entries[0].isIntersecting){
-                this.loadMorePosts();
-            }
-        }
-
-        // наблюдатель
-        let observer = new IntersectionObserver(callback, options); 
-        observer.observe(this.$refs.observer); 
+        this.fetchPosts();   
+        // временно закомментировала подгузку страниц 
+        // let options = {
+        //     // root: document.querySelector('.scroll-list'),
+        //     rootMargin: '5px',
+        //     threshold: 0.5
+        // }
+        // // функция обратного вызова
+        // let callback = (entries, observer) => {
+        //     if(entries[0].isIntersecting){
+        //         this.loadMorePosts();
+        //     }
+        // }
+        // // наблюдатель
+        // let observer = new IntersectionObserver(callback, options); 
+        // observer.observe(this.$refs.observer); 
     },
     computed: {
         sortedPosts() { return [...this.posts].sort((post1, post2) =>  post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]))},
         sorteAndSearchPosts() {return this.sortedPosts.filter(post => post.title.toLowerCase().includes(this.searchQuery.toLowerCase()))}
         
     },
-    watch: {
-        // временно закомментировала пагинацию, так как работает подгрузка постов
-        // page() {
-        //     this.fetchPosts();
-        // }
+    watch: {  
+        page() {
+            this.fetchPosts();
+        }
     }
        
 }
