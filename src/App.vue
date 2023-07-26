@@ -27,7 +27,7 @@
     <!-- <div ref="observer" class="observer"></div> -->   
     <div class="page__wrapper">
         <div         
-        v-for="pageNumder in totalPages"
+        v-for="pageNumder in totalPagesWP"
         :key="pageNumder"
         class="page"
         :class="{'current-page':pageNumder === page}"
@@ -64,7 +64,7 @@ export default {
             searchQuery: '', 
             page: 1,         
             limit: 10, 
-            totalPages: 0,           
+            totalPagesWP: 0,           
             sortOptions: [
                 {value: 'title', name: 'По названию'},
                 {value: 'excerpt', name: 'По содержимому'},
