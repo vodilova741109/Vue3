@@ -90,7 +90,7 @@ export default {
         // пагинация страниц
         async fetchPosts(){
             try {
-                this.page +=1;
+              
                 this.isPostLoading = true;
                 // // setTimeout( async () => {
                 //     const response =  await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=40');  
@@ -131,6 +131,7 @@ export default {
         // подгрузка постов
         async loadMorePosts(){
             try {
+                this.page +=1;
                 // this.isPostLoading = true;
                 // // setTimeout( async () => {
                 //     const response =  await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=40');  
