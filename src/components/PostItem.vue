@@ -11,6 +11,9 @@
             <my-button             
             @click= "$emit('remove', post)"
             >Удалить</my-button>
+            <my-button   style="margin-top: 10px;"       
+            @click= "$router.push(`/posts/${post.id}`)"
+            >Открыть</my-button>
         </div>
           
        </div>
