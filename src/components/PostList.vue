@@ -21,6 +21,7 @@
 import PostItem from './PostItem.vue'
 
 
+
 export default {
   components: {PostItem},
     props: {
