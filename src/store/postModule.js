@@ -59,7 +59,6 @@ export const postModule = {
     },
     actions: {
           // пагинация страниц
-
           async fetchPosts({ state, commit}){
             try {              
                 commit('setLoading', true);
@@ -108,7 +107,7 @@ export const postModule = {
             try {
                 commit('setPage', state.page + 1)                
                 // this.isPostLoading = true;
-                
+
                 // // setTimeout( async () => {
                     // const response =  await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=40');  
                     //  this.posts = response.data; 

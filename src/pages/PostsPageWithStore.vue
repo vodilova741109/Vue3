@@ -9,24 +9,26 @@
             <my-button @click="$store.commit('decrementLikes')">Дизлайк</my-button>
 
         </div>         -->
-        <!-- <my-input
+        <my-input
         v-focus
-        v-model="searchQuery"
-        placeholder="Поиск ..."/> -->
+        :model-value="searchQuery"
+        @update:model-value="setSearchQuery"
+        placeholder="Поиск ..."/>
         <div class="app__btns">
             <my-button class="dialog__btn"
             @click="showDialog"
             >Создать пост</my-button>
-            <!-- <my-select
-             v-model="selectedSort"
+            <my-select
+            :model-value="selectedSort"
+            @update:model-value="setSelectedSort"
              :options="sortOptions"
-            ></my-select> -->
+            ></my-select>
         </div>   
         
-        <!-- <my-dialog v-model:show="dialogVisible" >
+        <my-dialog v-model:show="dialogVisible" >
             <post-form
          @create="createPost"/>
-        </my-dialog>        -->
+        </my-dialog>       
          <post-list v-if="!isPostLoading"
          :posts="sorteAndSearchPosts"
          @remove="removePost"/>
@@ -34,7 +36,7 @@
         <h4>Идет загрузка</h4>        
     </my-loading>
     <div v-intersection="loadMorePosts" class="observer"></div>
-    <!-- <div ref="observer" class="observer"></div> -->
+    <div ref="observer" class="observer"></div>
     <!-- // временно закомментировала пагинация -->
     <!-- <div class="page__wrapper">
         <div         
@@ -73,7 +75,9 @@ export default {
     },
     methods:{  
         ...mapMutations({
-            setPage: 'post/setPage'
+            setPage: 'post/setPage',
+            setSearchQuery: 'post/setSearchQuery',
+            setSelectedSort: 'post/setSelectedSort'    
 
         }),    
         ...mapActions({
@@ -179,7 +183,7 @@ export default {
     },   
   
     mounted() {
-        // this.fetchPosts();    
+        this.fetchPosts();    
         // закомментировала, когда создала свою диррективу, код перенесен в саму диррективу
         // let options = {
         //     // root: document.querySelector('.scroll-list'),
@@ -199,9 +203,7 @@ export default {
         // let observer = new IntersectionObserver(callback, options); 
         // observer.observe(this.$refs.observer); 
     },
-    computed: {
-        // sortedPosts() { return [...this.posts].sort((post1, post2) =>  post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]))},
-        // sorteAndSearchPosts() {return this.sortedPosts.filter(post => post.title.toLowerCase().includes(this.searchQuery.toLowerCase()))}
+    computed: {       
         ...mapState({
             posts: state => state.post.posts,            
             isPostLoading:  state => state.post.isPostLoading,     
@@ -217,6 +219,8 @@ export default {
             sortedPosts: '/post/sortedPosts',
             sorteAndSearchPosts: 'post/sorteAndSearchPosts'
         }),
+         // sortedPosts() { return [...this.posts].sort((post1, post2) =>  post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]))},
+        // sorteAndSearchPosts() {return this.sortedPosts.filter(post => post.title.toLowerCase().includes(this.searchQuery.toLowerCase()))}
     },
     watch: {
         // временно закомментировала пагинацию, так как работает подгрузка постов
