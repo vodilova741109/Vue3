@@ -4,7 +4,9 @@
         <div class="navbar__btns">
             <my-button @click="$router.push('/posts')" >Посты</my-button>
             <my-button @click="$router.push('/store')" >Store</my-button>
+            <my-button @click="$router.push('/composition')" >Composition</my-button>
             <my-button @click="$router.push('/about')" >О нас</my-button>
+           
         </div> 
         <!-- простые ссылки, реализовано через кнопки -->
         <!-- <router-link to="/post">Посты</router-link>
